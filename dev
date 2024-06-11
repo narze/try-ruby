@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+
+# Usage: ./dev [filename]
+
+file_to_watch = ARGV[0] || "hello.rb"
+
+# Check if the file exists
+unless File.exist?(file_to_watch)
+  puts "File not found: #{file_to_watch}"
+  exit 1
+end
+
+# Get the initial modification time of the file
+last_mtime = File.mtime(file_to_watch)
+
+puts "Watching #{file_to_watch} for changes..."
+puts "Press Ctrl+C to exit."
+puts "Press Enter to execute the file manually."
+
+# Start a thread to listen for Enter key presses
+Thread.new do
+  loop do
+    STDIN.gets
+
+    system("clear")
+    system("ruby #{file_to_watch}")
+  end
+end
+
+loop do
+  # Sleep for a short period to avoid busy-waiting
+  sleep 0.3
+
+  # Get the current modification time of the file
+  current_mtime = File.mtime(file_to_watch)
+
+  # Check if the file has been modified
+  if current_mtime != last_mtime
+    puts "File changed, executing #{file_to_watch}..."
+
+    # Update the last modification time
+    last_mtime = current_mtime
+
+    # Clean the screen
+    system("clear")
+
+    # Execute the file
+    system("ruby #{file_to_watch}")
+  end
+end
