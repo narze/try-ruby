@@ -3,7 +3,14 @@
 {
   "name": "Ruby",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "mcr.microsoft.com/devcontainers/ruby:1-3.3-bullseye"
+  "image": "mcr.microsoft.com/devcontainers/ruby:1-3.3-bullseye",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Shopify.ruby-lsp"
+      ]
+    }
+  }
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},
