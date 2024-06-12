@@ -66,7 +66,7 @@ begin
   irb_binding = irb.context.workspace.binding
   begin
     irb_binding.eval(File.read(file))
-  rescue => e
+  rescue Exception => e
     warn "[ERROR] #{e.message})"
   end
 
