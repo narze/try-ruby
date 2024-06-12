@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 
 require 'irb'
+require 'io/console'
+
+# File: dev.rb
 
 # Get the file to watch from the first argument, default to "hello.rb" if not provided
 file = ARGV[0] || "hello.rb"
@@ -59,9 +62,13 @@ begin
   irb = IRB::Irb.new(workspace)
   IRB.conf[:MAIN_CONTEXT] = irb.context
 
-  # Load the file initially
+  # Load the file initially in the IRB binding context
   irb_binding = irb.context.workspace.binding
-  irb_binding.eval("load '#{file}'")
+  begin
+    irb_binding.eval(File.read(file))
+  rescue => e
+    warn "[ERROR] #{e.message})"
+  end
 
   trap("SIGINT") do
     irb.signal_handle
