@@ -4,11 +4,10 @@
 file=${1:-hello.rb}
 
 # Check if the rerun command exists
-if ! command -v rerun &> /dev/null
-then
-    echo "rerun command not found. Installing rerun gem..."
-    gem install --local lib/rerun-0.14.0.gem
+if ! command -v rerun &>/dev/null; then
+  echo "rerun command not found. Installing rerun gem..."
+  gem install --local lib/rerun-0.14.0.gem
 fi
 
 # Run the rerun command to monitor changes in the specified file
-rerun --pattern "$file" --background -- ruby lib/dev.rb "$file"
+rerun --pattern "$file" --background --no-notify --quiet -- ruby lib/dev.rb "$file"

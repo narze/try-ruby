@@ -17,7 +17,7 @@ def load_file_in_irb_binding(file, irb_binding)
   begin
     irb_binding.eval(File.read(file))
     puts "Loaded #{file} successfully."
-  rescue => e
+  rescue Exception => e
     puts "Error loading #{file}: #{e.message}"
     puts e.backtrace
   end
@@ -29,8 +29,6 @@ def send_sigterm_to_parent
   puts "\nSending SIGTERM to parent process (PID: #{parent_pid}) to stop rerun..."
   Process.kill("TERM", parent_pid)
 end
-
-puts "Loading #{file} and starting IRB session..."
 
 # Start an IRB session and load the file initially
 begin
